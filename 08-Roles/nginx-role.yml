@@ -1,0 +1,46 @@
+---
+- name: Nginx Role Example
+  hosts: webservers
+  become: true
+
+  vars:
+    nginx_package: nginx
+    nginx_service: nginx
+    web_root: /var/www/html
+
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.package:
+        name: "{{ nginx_package }}"
+        state: present
+
+    - name: Deploy Homepage
+      ansible.builtin.copy:
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>Ansible Roles</title>
+          </head>
+          <body>
+              <h1>Nginx configured using Ansible</h1>
+              <p>Server: {{ inventory_hostname }}</p>
+          </body>
+          </html>
+        dest: "{{ web_root }}/index.html"
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Restart Nginx
+
+    - name: Ensure Nginx Is Running
+      ansible.builtin.service:
+        name: "{{ nginx_service }}"
+        state: started
+        enabled: true
+
+  handlers:
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: "{{ nginx_service }}"
+        state: restarted
