@@ -1,0 +1,23 @@
+---
+- name: Execute Tasks Based on Operating System
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Install Nginx on Debian-based Systems
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+      when: ansible_os_family == "Debian"
+
+    - name: Install HTTPD on Red Hat-based Systems
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Display Operating System
+      ansible.builtin.debug:
+        msg: "Operating System: {{ ansible_distribution }}"
