@@ -1,0 +1,23 @@
+---
+- name: Variables in Templates
+  hosts: webservers
+  become: true
+
+  vars:
+    application_name: DevOps Portal
+    environment: Production
+    company: OpenAI Technologies
+
+  tasks:
+
+    - name: Deploy Application Template
+      ansible.builtin.template:
+        src: templates/application.properties.j2
+        dest: /opt/application/application.properties
+
+    - name: Display Variables
+      ansible.builtin.debug:
+        msg:
+          - "Application : {{ application_name }}"
+          - "Environment : {{ environment }}"
+          - "Company : {{ company }}"
