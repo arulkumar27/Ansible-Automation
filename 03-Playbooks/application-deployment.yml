@@ -1,0 +1,29 @@
+---
+- name: Deploy Application
+  hosts: webservers
+  become: true
+
+  vars:
+    app_directory: /opt/application
+
+  tasks:
+    - name: Create Application Directory
+      ansible.builtin.file:
+        path: "{{ app_directory }}"
+        state: directory
+        mode: "0755"
+
+    - name: Copy Application Files
+      ansible.builtin.copy:
+        src: app/
+        dest: "{{ app_directory }}/"
+
+    - name: Restart Application Service
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+
+    - name: Verify Deployment
+      ansible.builtin.uri:
+        url: http://localhost
+        status_code: 200
