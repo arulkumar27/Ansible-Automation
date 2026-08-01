@@ -1,0 +1,61 @@
+# Ping Commands
+
+## Test connectivity to all hosts
+
+```bash
+ansible all -m ping
+```
+
+## Test a single host
+
+```bash
+ansible web1 -m ping
+```
+
+## Test a host group
+
+```bash
+ansible webservers -m ping
+```
+
+## Ping using a custom inventory
+
+```bash
+ansible all -i inventory.ini -m ping
+```
+
+## Ping with privilege escalation
+
+```bash
+ansible all -b -m ping
+```
+
+## Ping with a specific user
+
+```bash
+ansible all -u ubuntu -m ping
+```
+
+## Ping with a private key
+
+```bash
+ansible all -m ping --private-key ~/.ssh/ansible.pem
+```
+
+## Ping and display detailed output
+
+```bash
+ansible all -m ping -vvv
+```
+
+## Ping using host limit
+
+```bash
+ansible all --limit webservers -m ping
+```
+
+## Ping excluding a host group
+
+```bash
+ansible all:!databases -m ping
+```
