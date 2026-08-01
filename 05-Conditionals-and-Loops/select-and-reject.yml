@@ -1,0 +1,26 @@
+---
+- name: Select and Reject Filters
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    numbers:
+      - 10
+      - 15
+      - 20
+      - 25
+      - 30
+
+  tasks:
+
+    - name: Select Numbers Greater Than 20
+      ansible.builtin.debug:
+        msg: "{{ numbers | select('gt',20) | list }}"
+
+    - name: Reject Numbers Greater Than 20
+      ansible.builtin.debug:
+        msg: "{{ numbers | reject('gt',20) | list }}"
+
+    - name: Display Maximum Value
+      ansible.builtin.debug:
+        msg: "{{ numbers | max }}"
