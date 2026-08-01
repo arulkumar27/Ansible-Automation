@@ -1,0 +1,25 @@
+---
+- name: Update Linux Servers
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update APT Cache
+      ansible.builtin.apt:
+        update_cache: true
+      when: ansible_os_family == "Debian"
+
+    - name: Upgrade Installed Packages
+      ansible.builtin.apt:
+        upgrade: dist
+      when: ansible_os_family == "Debian"
+
+    - name: Remove Unused Packages
+      ansible.builtin.apt:
+        autoremove: true
+        autoclean: true
+      when: ansible_os_family == "Debian"
+
+    - name: Display Completion Message
+      ansible.builtin.debug:
+        msg: "System updated successfully."
