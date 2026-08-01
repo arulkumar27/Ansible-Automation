@@ -1,0 +1,29 @@
+---
+- name: Configure AWS EC2 Instances
+  hosts: role_webserver
+  become: true
+
+  tasks:
+
+    - name: Install Nginx
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+    - name: Start Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Deploy Homepage
+      ansible.builtin.copy:
+        content: |
+          <h1>Configured by Ansible Dynamic Inventory</h1>
+          <p>Host: {{ inventory_hostname }}</p>
+        dest: /var/www/html/index.html
+
+    - name: Verify Deployment
+      ansible.builtin.uri:
+        url: http://localhost
+        status_code: 200
