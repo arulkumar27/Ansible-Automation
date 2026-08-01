@@ -1,0 +1,46 @@
+# Installing Ansible
+
+## Ubuntu
+
+```bash
+sudo apt update
+sudo apt install ansible -y
+```
+
+Verify installation:
+
+```bash
+ansible --version
+```
+
+---
+
+## Python Installation
+
+Ansible requires Python.
+
+```bash
+python3 --version
+```
+
+---
+
+## Verify SSH Connectivity
+
+```bash
+ssh ubuntu@SERVER_IP
+```
+
+---
+
+## Test Ansible
+
+```bash
+ansible all -m ping
+```
+
+Expected Output:
+
+```text
+SUCCESS
+```
