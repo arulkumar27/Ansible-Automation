@@ -1,0 +1,41 @@
+# Host Patterns
+
+Host patterns specify which managed nodes Ansible should target.
+
+## Examples
+
+Target all servers
+
+```bash
+ansible all -m ping
+```
+
+Target one host
+
+```bash
+ansible web1 -m ping
+```
+
+Target web servers
+
+```bash
+ansible webservers -m ping
+```
+
+Target databases
+
+```bash
+ansible databases -m ping
+```
+
+Limit execution
+
+```bash
+ansible-playbook site.yml --limit webservers
+```
+
+Exclude hosts
+
+```bash
+ansible all:!databases -m ping
+```
