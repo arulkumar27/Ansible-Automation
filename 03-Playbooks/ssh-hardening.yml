@@ -1,0 +1,28 @@
+---
+- name: Harden SSH Configuration
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Disable Root Login
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "^PermitRootLogin"
+        line: "PermitRootLogin no"
+
+    - name: Disable Password Authentication
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "^PasswordAuthentication"
+        line: "PasswordAuthentication no"
+
+    - name: Enable Public Key Authentication
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "^PubkeyAuthentication"
+        line: "PubkeyAuthentication yes"
+
+    - name: Restart SSH Service
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
