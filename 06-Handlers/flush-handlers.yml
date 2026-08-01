@@ -1,0 +1,29 @@
+---
+- name: Flush Handlers Example
+  hosts: webservers
+  become: true
+
+  tasks:
+
+    - name: Deploy Nginx Configuration
+      ansible.builtin.copy:
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
+      notify: Restart Nginx
+
+    - name: Execute Pending Handlers Immediately
+      ansible.builtin.meta: flush_handlers
+
+    - name: Verify Nginx Status
+      ansible.builtin.service_facts:
+
+    - name: Display Service State
+      ansible.builtin.debug:
+        msg: "{{ ansible_facts.services['nginx.service'].state }}"
+
+  handlers:
+
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
