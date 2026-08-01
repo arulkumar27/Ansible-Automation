@@ -1,0 +1,90 @@
+---
+- name: Deploy Production Web Application
+  hosts: webservers
+  become: true
+
+  vars:
+    app_name: ecommerce-app
+    app_directory: /opt/ecommerce-app
+    nginx_conf: /etc/nginx/conf.d/ecommerce.conf
+
+  tasks:
+
+    - name: Install Nginx
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+    - name: Ensure Application Directory Exists
+      ansible.builtin.file:
+        path: "{{ app_directory }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Deploy Application Files
+      ansible.builtin.copy:
+        src: application/
+        dest: "{{ app_directory }}/"
+        owner: root
+        group: root
+        mode: "0755"
+      notify:
+        - Restart Nginx
+
+    - name: Deploy Nginx Configuration
+      ansible.builtin.template:
+        src: templates/nginx.conf.j2
+        dest: "{{ nginx_conf }}"
+        owner: root
+        group: root
+        mode: "0644"
+      notify:
+        - Validate Nginx Configuration
+        - Restart Nginx
+
+    - name: Deploy Environment Configuration
+      ansible.builtin.copy:
+        src: configs/.env
+        dest: "{{ app_directory }}/.env"
+        owner: root
+        group: root
+        mode: "0640"
+      notify:
+        - Restart Application
+
+    - name: Ensure Nginx Service is Running
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Verify Application Health
+      ansible.builtin.uri:
+        url: http://localhost
+        status_code: 200
+      register: health_check
+      retries: 5
+      delay: 5
+      until: health_check.status == 200
+
+    - name: Display Deployment Status
+      ansible.builtin.debug:
+        msg: "Application deployed successfully on {{ inventory_hostname }}"
+
+  handlers:
+
+    - name: Validate Nginx Configuration
+      ansible.builtin.command: nginx -t
+      changed_when: false
+
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+
+    - name: Restart Application
+      ansible.builtin.service:
+        name: "{{ app_name }}"
+        state: restarted
