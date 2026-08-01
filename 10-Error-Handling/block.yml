@@ -1,0 +1,28 @@
+---
+- name: Block Example
+  hosts: webservers
+  become: true
+
+  tasks:
+
+    - name: Deploy Web Server
+      block:
+
+        - name: Install Nginx
+          ansible.builtin.package:
+            name: nginx
+            state: present
+
+        - name: Copy Configuration
+          ansible.builtin.copy:
+            src: nginx.conf
+            dest: /etc/nginx/nginx.conf
+
+        - name: Start Nginx
+          ansible.builtin.service:
+            name: nginx
+            state: started
+
+    - name: Deployment Completed
+      ansible.builtin.debug:
+        msg: "Block executed successfully."
