@@ -1,0 +1,50 @@
+---
+- name: Production Deployment with Error Handling
+  hosts: production
+  become: true
+
+  tasks:
+
+    - name: Deploy Web Application
+      block:
+
+        - name: Copy Application Files
+          ansible.builtin.copy:
+            src: application/
+            dest: /opt/application/
+
+        - name: Deploy Nginx Configuration
+          ansible.builtin.template:
+            src: templates/nginx.conf.j2
+            dest: /etc/nginx/nginx.conf
+
+        - name: Validate Nginx
+          ansible.builtin.command: nginx -t
+          changed_when: false
+
+        - name: Restart Nginx
+          ansible.builtin.service:
+            name: nginx
+            state: restarted
+
+      rescue:
+
+        - name: Restore Previous Configuration
+          ansible.builtin.copy:
+            src: backup/nginx.conf
+            dest: /etc/nginx/nginx.conf
+
+        - name: Restart Nginx
+          ansible.builtin.service:
+            name: nginx
+            state: restarted
+
+        - name: Notify Failure
+          ansible.builtin.debug:
+            msg: "Deployment failed. Rollback completed."
+
+      always:
+
+        - name: Deployment Summary
+          ansible.builtin.debug:
+            msg: "Deployment workflow finished."
