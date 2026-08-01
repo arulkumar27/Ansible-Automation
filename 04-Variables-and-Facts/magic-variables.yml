@@ -1,0 +1,33 @@
+---
+- name: Magic Variables Example
+  hosts: all
+
+  tasks:
+
+    - name: Inventory Hostname
+      ansible.builtin.debug:
+        var: inventory_hostname
+
+    - name: Inventory Hostname Short
+      ansible.builtin.debug:
+        var: inventory_hostname_short
+
+    - name: Current Playbook Host
+      ansible.builtin.debug:
+        var: ansible_play_hosts
+
+    - name: Current User
+      ansible.builtin.debug:
+        var: ansible_user
+
+    - name: Playbook Directory
+      ansible.builtin.debug:
+        var: playbook_dir
+
+    - name: Inventory Directory
+      ansible.builtin.debug:
+        var: inventory_dir
+
+    - name: Host Variables
+      ansible.builtin.debug:
+        var: hostvars
