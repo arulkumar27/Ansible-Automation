@@ -1,0 +1,61 @@
+# System Information
+
+## Gather system facts
+
+```bash
+ansible all -m setup
+```
+
+## Display hostname
+
+```bash
+ansible all -m command -a "hostname"
+```
+
+## Check uptime
+
+```bash
+ansible all -m command -a "uptime"
+```
+
+## Check disk usage
+
+```bash
+ansible all -m command -a "df -h"
+```
+
+## Check memory usage
+
+```bash
+ansible all -m command -a "free -h"
+```
+
+## Check CPU information
+
+```bash
+ansible all -m command -a "lscpu"
+```
+
+## Check operating system
+
+```bash
+ansible all -m command -a "cat /etc/os-release"
+```
+
+## Check kernel version
+
+```bash
+ansible all -m command -a "uname -r"
+```
+
+## Check IP address
+
+```bash
+ansible all -m command -a "hostname -I"
+```
+
+## Check mounted filesystems
+
+```bash
+ansible all -m command -a "mount"
+```
