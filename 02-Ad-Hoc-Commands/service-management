@@ -1,0 +1,61 @@
+# Service Management
+
+## Start a service
+
+```bash
+ansible all -b -m service -a "name=nginx state=started"
+```
+
+## Stop a service
+
+```bash
+ansible all -b -m service -a "name=nginx state=stopped"
+```
+
+## Restart a service
+
+```bash
+ansible all -b -m service -a "name=nginx state=restarted"
+```
+
+## Reload a service
+
+```bash
+ansible all -b -m service -a "name=nginx state=reloaded"
+```
+
+## Enable a service
+
+```bash
+ansible all -b -m service -a "name=nginx enabled=yes"
+```
+
+## Disable a service
+
+```bash
+ansible all -b -m service -a "name=nginx enabled=no"
+```
+
+## Ensure a service is running
+
+```bash
+ansible all -b -m service -a "name=docker state=started enabled=yes"
+```
+
+## Restart Docker
+
+```bash
+ansible all -b -m service -a "name=docker state=restarted"
+```
+
+## Check service status
+
+```bash
+ansible all -m shell -a "systemctl status nginx"
+```
+
+## List all running services
+
+```bash
+ansible all -m shell -a "systemctl list-units --type=service"
+```
