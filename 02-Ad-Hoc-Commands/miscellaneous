@@ -1,0 +1,61 @@
+# Miscellaneous Commands
+
+## Execute a shell command
+
+```bash
+ansible all -m shell -a "echo Hello World"
+```
+
+## Execute a command module
+
+```bash
+ansible all -m command -a "date"
+```
+
+## Reboot all servers
+
+```bash
+ansible all -b -m reboot
+```
+
+## Shutdown servers
+
+```bash
+ansible all -b -m shell -a "shutdown -h now"
+```
+
+## Check available disk space
+
+```bash
+ansible all -m shell -a "df -h"
+```
+
+## Find large files
+
+```bash
+ansible all -m shell -a "find / -type f -size +500M"
+```
+
+## Search for a file
+
+```bash
+ansible all -m shell -a "find / -name nginx.conf"
+```
+
+## Check current date and time
+
+```bash
+ansible all -m command -a "date"
+```
+
+## Verify Python installation
+
+```bash
+ansible all -m command -a "python3 --version"
+```
+
+## Gather complete system facts
+
+```bash
+ansible all -m setup
+```
