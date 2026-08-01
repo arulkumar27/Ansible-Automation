@@ -1,0 +1,47 @@
+---
+- name: Manage Linux users and groups
+  hosts: all
+  become: true
+
+  vars:
+    user_name: devops
+    user_group: devops
+    user_shell: /bin/bash
+
+  tasks:
+    - name: Create the DevOps group
+      ansible.builtin.group:
+        name: "{{ user_group }}"
+        state: present
+
+    - name: Create the DevOps user
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        group: "{{ user_group }}"
+        groups:
+          - sudo
+        append: true
+        shell: "{{ user_shell }}"
+        create_home: true
+        state: present
+
+    - name: Create the SSH directory
+      ansible.builtin.file:
+        path: "/home/{{ user_name }}/.ssh"
+        state: directory
+        owner: "{{ user_name }}"
+        group: "{{ user_group }}"
+        mode: "0700"
+
+    - name: Configure passwordless sudo
+      ansible.builtin.copy:
+        content: "{{ user_name }} ALL=(ALL) NOPASSWD: ALL\n"
+        dest: "/etc/sudoers.d/{{ user_name }}"
+        owner: root
+        group: root
+        mode: "0440"
+        validate: "/usr/sbin/visudo -cf %s"
+
+    - name: Display user creation status
+      ansible.builtin.debug:
+        msg: "User {{ user_name }} has been configured successfully."
