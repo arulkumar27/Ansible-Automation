@@ -1,0 +1,32 @@
+---
+- name: Deploy Static Website
+  hosts: webservers
+  become: true
+
+  vars:
+    web_root: /var/www/html
+
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+    - name: Start and Enable Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Copy index.html
+      ansible.builtin.copy:
+        src: files/index.html
+        dest: "{{ web_root }}/index.html"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
