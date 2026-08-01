@@ -1,0 +1,30 @@
+---
+- name: Notify Keyword Example
+  hosts: webservers
+  become: true
+
+  tasks:
+
+    - name: Deploy Website
+      ansible.builtin.copy:
+        src: index.html
+        dest: /var/www/html/index.html
+      notify: Restart Nginx
+
+    - name: Update Nginx Configuration
+      ansible.builtin.copy:
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
+      notify: Restart Nginx
+
+    - name: Install Curl
+      ansible.builtin.package:
+        name: curl
+        state: present
+
+  handlers:
+
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
