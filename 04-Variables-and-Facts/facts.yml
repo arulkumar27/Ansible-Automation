@@ -1,0 +1,45 @@
+---
+- name: Gather and Display Ansible Facts
+  hosts: all
+  gather_facts: true
+
+  tasks:
+
+    - name: Display Hostname
+      ansible.builtin.debug:
+        msg: "{{ ansible_hostname }}"
+
+    - name: Display Operating System
+      ansible.builtin.debug:
+        msg: "{{ ansible_distribution }}"
+
+    - name: Display OS Version
+      ansible.builtin.debug:
+        msg: "{{ ansible_distribution_version }}"
+
+    - name: Display Kernel Version
+      ansible.builtin.debug:
+        msg: "{{ ansible_kernel }}"
+
+    - name: Display IP Address
+      ansible.builtin.debug:
+        msg: "{{ ansible_default_ipv4.address }}"
+
+    - name: Display CPU Cores
+      ansible.builtin.debug:
+        msg: "{{ ansible_processor_vcpus }}"
+
+    - name: Display Total Memory
+      ansible.builtin.debug:
+        msg: "{{ ansible_memtotal_mb }} MB"
+
+    - name: Display Architecture
+      ansible.builtin.debug:
+        msg: "{{ ansible_architecture }}"
+
+    - name: Display Hostname and Environment
+      ansible.builtin.debug:
+        msg:
+          - "Host : {{ inventory_hostname }}"
+          - "OS : {{ ansible_distribution }}"
+          - "IP : {{ ansible_default_ipv4.address }}"
