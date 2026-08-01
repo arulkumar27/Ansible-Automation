@@ -1,0 +1,61 @@
+# Process Management
+
+## List running processes
+
+```bash
+ansible all -m command -a "ps -ef"
+```
+
+## Find a process
+
+```bash
+ansible all -m command -a "ps -ef | grep nginx"
+```
+
+## Kill a process
+
+```bash
+ansible all -m shell -a "pkill nginx"
+```
+
+## Kill process by PID
+
+```bash
+ansible all -m shell -a "kill -9 1234"
+```
+
+## Display top processes
+
+```bash
+ansible all -m command -a "top -b -n 1"
+```
+
+## Display process tree
+
+```bash
+ansible all -m command -a "pstree"
+```
+
+## Check Docker processes
+
+```bash
+ansible all -m command -a "docker ps"
+```
+
+## Check system load
+
+```bash
+ansible all -m command -a "uptime"
+```
+
+## Check CPU-intensive processes
+
+```bash
+ansible all -m shell -a "ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head"
+```
+
+## Check memory-intensive processes
+
+```bash
+ansible all -m shell -a "ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head"
+```
