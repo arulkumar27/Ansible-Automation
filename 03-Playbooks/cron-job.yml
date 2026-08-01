@@ -1,0 +1,26 @@
+---
+- name: Configure Scheduled Cron Jobs
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Create Daily Backup Cron Job
+      ansible.builtin.cron:
+        name: Daily Backup
+        minute: "0"
+        hour: "2"
+        job: "/usr/local/bin/backup.sh"
+
+    - name: Create Log Cleanup Job
+      ansible.builtin.cron:
+        name: Weekly Log Cleanup
+        weekday: "0"
+        hour: "3"
+        minute: "0"
+        job: "find /var/log -type f -name '*.log' -mtime +30 -delete"
+
+    - name: Verify Cron Service
+      ansible.builtin.service:
+        name: cron
+        state: started
+        enabled: true
