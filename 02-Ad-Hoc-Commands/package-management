@@ -1,0 +1,61 @@
+# Package Management
+
+## Install a package
+
+```bash
+ansible all -b -m apt -a "name=nginx state=present"
+```
+
+## Install multiple packages
+
+```bash
+ansible all -b -m apt -a "name=git,curl,wget state=present"
+```
+
+## Update package cache
+
+```bash
+ansible all -b -m apt -a "update_cache=yes"
+```
+
+## Upgrade installed packages
+
+```bash
+ansible all -b -m apt -a "upgrade=yes"
+```
+
+## Remove a package
+
+```bash
+ansible all -b -m apt -a "name=apache2 state=absent"
+```
+
+## Completely remove a package
+
+```bash
+ansible all -b -m apt -a "name=apache2 state=purged"
+```
+
+## Install the latest package version
+
+```bash
+ansible all -b -m apt -a "name=docker.io state=latest"
+```
+
+## Install packages on a specific group
+
+```bash
+ansible webservers -b -m apt -a "name=nginx state=present"
+```
+
+## Install package using yum (RHEL/CentOS)
+
+```bash
+ansible all -b -m yum -a "name=httpd state=present"
+```
+
+## Install package using package module
+
+```bash
+ansible all -b -m package -a "name=vim state=present"
+```
