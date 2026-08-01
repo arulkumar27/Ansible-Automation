@@ -1,0 +1,32 @@
+---
+- name: Common Role Example
+  hosts: all
+  become: true
+
+  vars:
+    common_packages:
+      - git
+      - curl
+      - wget
+      - unzip
+      - tree
+
+  tasks:
+    - name: Update APT Package Cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Install Common Packages
+      ansible.builtin.package:
+        name: "{{ common_packages }}"
+        state: present
+
+    - name: Set System Timezone
+      community.general.timezone:
+        name: Asia/Kolkata
+
+    - name: Display Completion Message
+      ansible.builtin.debug:
+        msg: "Common server configuration completed on {{ inventory_hostname }}"
