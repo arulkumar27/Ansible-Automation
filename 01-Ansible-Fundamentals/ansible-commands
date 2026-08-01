@@ -1,0 +1,79 @@
+# Common Ansible Commands
+
+## Check Version
+
+```bash
+ansible --version
+```
+
+## Ping All Hosts
+
+```bash
+ansible all -m ping
+```
+
+## List Inventory
+
+```bash
+ansible-inventory --list
+```
+
+## Inventory Graph
+
+```bash
+ansible-inventory --graph
+```
+
+## Run Playbook
+
+```bash
+ansible-playbook playbook.yml
+```
+
+## Syntax Check
+
+```bash
+ansible-playbook playbook.yml --syntax-check
+```
+
+## Dry Run
+
+```bash
+ansible-playbook playbook.yml --check
+```
+
+## Show File Changes
+
+```bash
+ansible-playbook playbook.yml --check --diff
+```
+
+## Encrypt File
+
+```bash
+ansible-vault encrypt secrets.yml
+```
+
+## View Encrypted File
+
+```bash
+ansible-vault view secrets.yml
+```
+
+## Edit Encrypted File
+
+```bash
+ansible-vault edit secrets.yml
+```
+
+## Decrypt File
+
+```bash
+ansible-vault decrypt secrets.yml
+```
+
+## Run Playbook with Vault
+
+```bash
+ansible-playbook site.yml --ask-vault-pass
+```
