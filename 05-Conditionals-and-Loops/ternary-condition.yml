@@ -1,0 +1,24 @@
+---
+- name: Ternary Operator Example
+  hosts: all
+  gather_facts: true
+
+  tasks:
+
+    - name: Determine Package Manager
+      ansible.builtin.debug:
+        msg: >-
+          {{
+            'APT'
+            if ansible_os_family == 'Debian'
+            else 'DNF'
+          }}
+
+    - name: Determine Environment
+      ansible.builtin.debug:
+        msg: >-
+          {{
+            'Production'
+            if inventory_hostname == 'web1'
+            else 'Development'
+          }}
