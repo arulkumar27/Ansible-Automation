@@ -1,0 +1,19 @@
+---
+- name: Custom Failure Condition
+  hosts: all
+
+  tasks:
+
+    - name: Check Disk Usage
+      ansible.builtin.command: df -h /
+      register: disk_usage
+      changed_when: false
+
+    - name: Display Disk Usage
+      ansible.builtin.debug:
+        var: disk_usage.stdout
+
+    - name: Fail When Disk Is Full
+      ansible.builtin.fail:
+        msg: "Disk usage has reached the critical threshold."
+      when: "'100%' in disk_usage.stdout"
