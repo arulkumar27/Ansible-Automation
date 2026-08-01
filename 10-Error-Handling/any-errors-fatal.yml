@@ -1,0 +1,26 @@
+---
+- name: Stop All Hosts on Critical Failure
+  hosts: all
+  become: true
+  any_errors_fatal: true
+
+  tasks:
+
+    - name: Install Docker
+      ansible.builtin.package:
+        name: docker.io
+        state: present
+
+    - name: Start Docker
+      ansible.builtin.service:
+        name: docker
+        state: started
+
+    - name: Verify Docker Version
+      ansible.builtin.command: docker --version
+      register: docker_version
+      changed_when: false
+
+    - name: Display Version
+      ansible.builtin.debug:
+        var: docker_version.stdout
