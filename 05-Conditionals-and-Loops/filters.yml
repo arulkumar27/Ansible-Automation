@@ -1,0 +1,36 @@
+---
+- name: Jinja2 Filters Example
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    servers:
+      - nginx
+      - docker
+      - mysql
+
+    username: devops
+
+    message: "ansible automation"
+
+  tasks:
+
+    - name: Convert to Uppercase
+      ansible.builtin.debug:
+        msg: "{{ username | upper }}"
+
+    - name: Convert to Lowercase
+      ansible.builtin.debug:
+        msg: "{{ message | lower }}"
+
+    - name: Capitalize String
+      ansible.builtin.debug:
+        msg: "{{ message | capitalize }}"
+
+    - name: Join List
+      ansible.builtin.debug:
+        msg: "{{ servers | join(', ') }}"
+
+    - name: Count Items
+      ansible.builtin.debug:
+        msg: "{{ servers | length }}"
