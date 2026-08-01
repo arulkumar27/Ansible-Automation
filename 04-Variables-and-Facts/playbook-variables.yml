@@ -1,0 +1,29 @@
+---
+- name: Playbook Variables Example
+  hosts: all
+  become: true
+
+  vars:
+    package_name: nginx
+    service_name: nginx
+    web_root: /var/www/html
+
+  tasks:
+
+    - name: Install package
+      ansible.builtin.package:
+        name: "{{ package_name }}"
+        state: present
+
+    - name: Start service
+      ansible.builtin.service:
+        name: "{{ service_name }}"
+        state: started
+        enabled: true
+
+    - name: Display variables
+      ansible.builtin.debug:
+        msg:
+          - "Package : {{ package_name }}"
+          - "Service : {{ service_name }}"
+          - "Web Root : {{ web_root }}"
