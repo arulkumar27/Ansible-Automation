@@ -1,0 +1,18 @@
+---
+web_package: nginx
+
+web_service: nginx
+
+http_port: 80
+
+https_port: 443
+
+document_root: /var/www/html
+
+index_file: index.html
+
+server_admin: admin@example.com
+
+worker_processes: auto
+
+client_max_body_size: 20m
