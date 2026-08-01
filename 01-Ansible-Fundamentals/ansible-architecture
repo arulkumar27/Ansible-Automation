@@ -1,0 +1,100 @@
+# Ansible Architecture
+
+## Overview
+
+Ansible is an open-source automation and configuration management tool used to automate infrastructure provisioning, software deployment, and server configuration.
+
+Unlike many automation tools, Ansible is **agentless**, meaning no additional software is required on managed nodes.
+
+---
+
+## Components
+
+### Control Node
+
+The machine where Ansible is installed and from which automation tasks are executed.
+
+Responsibilities:
+
+- Executes playbooks
+- Stores inventories
+- Connects to managed nodes
+- Pushes configurations
+
+---
+
+### Managed Nodes
+
+Remote Linux servers managed by the Control Node.
+
+Responsibilities:
+
+- Execute Ansible modules
+- Receive configuration changes
+- Return execution results
+
+---
+
+### Inventory
+
+Defines the servers managed by Ansible.
+
+Can contain:
+
+- IP Addresses
+- Hostnames
+- Groups
+- Variables
+
+---
+
+### Modules
+
+Reusable units that perform specific tasks.
+
+Examples:
+
+- apt
+- yum
+- package
+- copy
+- file
+- service
+- user
+- template
+
+---
+
+### Playbooks
+
+YAML files that describe automation workflows.
+
+Example:
+
+- Install packages
+- Configure services
+- Deploy applications
+- Create users
+
+---
+
+## Communication Flow
+
+Control Node
+      │
+      │ SSH
+      ▼
+Managed Node 1
+Managed Node 2
+Managed Node 3
+
+---
+
+## Key Features
+
+- Agentless Architecture
+- Push-Based Automation
+- YAML Configuration
+- Idempotent Operations
+- Modular Design
+- Cross-Platform Support
