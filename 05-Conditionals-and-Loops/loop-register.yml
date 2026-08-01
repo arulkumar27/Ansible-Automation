@@ -1,0 +1,24 @@
+---
+- name: Loop with Registered Variables
+  hosts: all
+
+  vars:
+    commands:
+      - hostname
+      - uptime
+      - whoami
+
+  tasks:
+
+    - name: Execute Commands
+      ansible.builtin.command: "{{ item }}"
+      register: command_output
+      changed_when: false
+      loop: "{{ commands }}"
+
+    - name: Display Command Output
+      ansible.builtin.debug:
+        msg:
+          - "Command : {{ item.item }}"
+          - "Output : {{ item.stdout }}"
+      loop: "{{ command_output.results }}"
