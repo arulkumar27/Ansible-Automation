@@ -1,0 +1,48 @@
+---
+- name: Deploy Production Nginx Configuration
+  hosts: webservers
+  become: true
+
+  vars:
+    server_name: devops.example.com
+    application_port: 8080
+
+    backend_servers:
+      - 10.0.1.10
+      - 10.0.1.11
+      - 10.0.1.12
+
+  tasks:
+
+    - name: Install Nginx
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+    - name: Deploy Nginx Configuration
+      ansible.builtin.template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify:
+        - Validate Nginx
+        - Restart Nginx
+
+    - name: Ensure Nginx is Running
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+  handlers:
+
+    - name: Validate Nginx
+      ansible.builtin.command: nginx -t
+      changed_when: false
+
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
