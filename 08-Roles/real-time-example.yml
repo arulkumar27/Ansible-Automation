@@ -1,0 +1,39 @@
+---
+- name: Configure Production Environment
+  hosts: production
+  become: true
+
+  roles:
+    - common
+
+- name: Configure Web Servers
+  hosts: webservers
+  become: true
+
+  roles:
+    - nginx
+
+- name: Configure Docker Hosts
+  hosts: docker
+  become: true
+
+  roles:
+    - docker
+
+- name: Configure Database Servers
+  hosts: databases
+  become: true
+
+  roles:
+    - mysql
+
+  post_tasks:
+
+    - name: Verify Web Server
+      ansible.builtin.uri:
+        url: http://localhost
+        status_code: 200
+
+    - name: Display Deployment Status
+      ansible.builtin.debug:
+        msg: "Infrastructure configured successfully using Ansible Roles."
