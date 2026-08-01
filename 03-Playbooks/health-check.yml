@@ -1,0 +1,32 @@
+---
+- name: Perform Server Health Check
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Check Disk Usage
+      ansible.builtin.command: df -h
+      register: disk_usage
+      changed_when: false
+
+    - name: Check Memory Usage
+      ansible.builtin.command: free -h
+      register: memory_usage
+      changed_when: false
+
+    - name: Check CPU Load
+      ansible.builtin.command: uptime
+      register: cpu_load
+      changed_when: false
+
+    - name: Display Disk Usage
+      ansible.builtin.debug:
+        var: disk_usage.stdout_lines
+
+    - name: Display Memory Usage
+      ansible.builtin.debug:
+        var: memory_usage.stdout_lines
+
+    - name: Display CPU Load
+      ansible.builtin.debug:
+        var: cpu_load.stdout
