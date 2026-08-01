@@ -1,0 +1,12 @@
+---
+server_role: webserver
+
+environment: production
+
+hostname: web01
+
+web_server: nginx
+
+http_port: 80
+
+https_port: 443
