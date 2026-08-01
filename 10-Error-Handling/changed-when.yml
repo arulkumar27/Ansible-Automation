@@ -1,0 +1,23 @@
+---
+- name: Custom Changed Status
+  hosts: all
+
+  tasks:
+
+    - name: Check Uptime
+      ansible.builtin.command: uptime
+      register: uptime_output
+      changed_when: false
+
+    - name: Check Memory
+      ansible.builtin.command: free -h
+      register: memory_output
+      changed_when: false
+
+    - name: Display Uptime
+      ansible.builtin.debug:
+        var: uptime_output.stdout
+
+    - name: Display Memory
+      ansible.builtin.debug:
+        var: memory_output.stdout
