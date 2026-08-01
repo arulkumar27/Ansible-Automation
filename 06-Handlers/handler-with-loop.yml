@@ -1,0 +1,29 @@
+---
+- name: Handler with Loop Example
+  hosts: webservers
+  become: true
+
+  vars:
+    config_files:
+      - nginx.conf
+      - app.conf
+      - security.conf
+
+  tasks:
+
+    - name: Deploy Configuration Files
+      ansible.builtin.copy:
+        src: "configs/{{ item }}"
+        dest: "/etc/nginx/conf.d/{{ item }}"
+        owner: root
+        group: root
+        mode: "0644"
+      loop: "{{ config_files }}"
+      notify: Restart Nginx
+
+  handlers:
+
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
