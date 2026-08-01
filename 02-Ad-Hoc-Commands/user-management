@@ -1,0 +1,61 @@
+# User Management
+
+## Create a user
+
+```bash
+ansible all -b -m user -a "name=developer state=present"
+```
+
+## Create a user with home directory
+
+```bash
+ansible all -b -m user -a "name=developer create_home=yes"
+```
+
+## Create a user with Bash shell
+
+```bash
+ansible all -b -m user -a "name=developer shell=/bin/bash"
+```
+
+## Add a user to a group
+
+```bash
+ansible all -b -m user -a "name=developer groups=sudo append=yes"
+```
+
+## Create multiple users
+
+```bash
+ansible all -b -m user -a "name={{ item }} state=present"
+```
+
+## Lock a user account
+
+```bash
+ansible all -b -m user -a "name=developer password_lock=yes"
+```
+
+## Unlock a user account
+
+```bash
+ansible all -b -m user -a "name=developer password_lock=no"
+```
+
+## Delete a user
+
+```bash
+ansible all -b -m user -a "name=developer state=absent"
+```
+
+## Delete a user with home directory
+
+```bash
+ansible all -b -m user -a "name=developer state=absent remove=yes"
+```
+
+## Display current logged-in users
+
+```bash
+ansible all -m shell -a "who"
+```
