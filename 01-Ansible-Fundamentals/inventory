@@ -1,0 +1,54 @@
+# Inventory
+
+An Inventory is a file that tells Ansible which servers it should manage.
+
+Inventories can be:
+
+- Static Inventory
+- Dynamic Inventory
+
+---
+
+## Static Inventory
+
+Manually maintained list of servers.
+
+Example:
+
+```ini
+web1 ansible_host=192.168.1.10
+```
+
+---
+
+## Dynamic Inventory
+
+Automatically discovers servers from cloud providers.
+
+Examples:
+
+- AWS EC2
+- Azure
+- Google Cloud
+
+---
+
+## Inventory Groups
+
+Servers can be grouped.
+
+Example:
+
+```ini
+[webservers]
+
+web1
+
+web2
+
+[databases]
+
+db1
+```
+
+Grouping allows playbooks to target multiple servers efficiently.
