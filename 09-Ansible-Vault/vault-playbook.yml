@@ -1,0 +1,30 @@
+---
+- name: Use Encrypted Variables
+  hosts: databases
+  become: true
+
+  vars_files:
+    - secrets.yml
+
+  tasks:
+
+    - name: Display Database Name
+      ansible.builtin.debug:
+        msg: "{{ database_name }}"
+
+    - name: Display Database User
+      ansible.builtin.debug:
+        msg: "{{ database_user }}"
+
+    - name: Use Database Password
+      ansible.builtin.debug:
+        msg: "Password loaded successfully."
+
+    - name: Create Application Configuration
+      ansible.builtin.copy:
+        dest: /opt/app/database.conf
+        content: |
+          database={{ database_name }}
+          username={{ database_user }}
+          password={{ database_password }}
+        mode: "0600"
