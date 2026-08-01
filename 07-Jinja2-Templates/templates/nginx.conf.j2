@@ -1,0 +1,37 @@
+user www-data;
+
+worker_processes auto;
+
+events {
+
+    worker_connections 1024;
+
+}
+
+http {
+
+    upstream backend {
+
+{% for server in backend_servers %}
+
+        server {{ server }}:{{ application_port }};
+
+{% endfor %}
+
+    }
+
+    server {
+
+        listen 80;
+
+        server_name {{ server_name }};
+
+        location / {
+
+            proxy_pass http://backend;
+
+        }
+
+    }
+
+}
