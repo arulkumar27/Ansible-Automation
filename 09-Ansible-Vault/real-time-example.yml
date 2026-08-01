@@ -1,0 +1,30 @@
+---
+- name: Deploy Secure Web Application
+  hosts: production
+  become: true
+
+  vars_files:
+    - secrets.yml
+
+  tasks:
+
+    - name: Install MySQL
+      ansible.builtin.package:
+        name: mysql-server
+        state: present
+
+    - name: Create Application Configuration
+      ansible.builtin.template:
+        src: templates/application.properties.j2
+        dest: /opt/application/application.properties
+        mode: "0600"
+
+    - name: Start MySQL Service
+      ansible.builtin.service:
+        name: mysql
+        state: started
+        enabled: true
+
+    - name: Verify Deployment
+      ansible.builtin.debug:
+        msg: "Application deployed securely using Ansible Vault."
