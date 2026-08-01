@@ -1,0 +1,25 @@
+---
+- name: Multiple Handlers Example
+  hosts: webservers
+  become: true
+
+  tasks:
+
+    - name: Deploy Nginx Configuration
+      ansible.builtin.copy:
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
+      notify:
+        - Restart Nginx
+        - Reload Systemd
+
+  handlers:
+
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+
+    - name: Reload Systemd
+      ansible.builtin.systemd:
+        daemon_reload: true
