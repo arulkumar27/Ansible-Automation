@@ -1,0 +1,19 @@
+---
+- name: Fail Playbook Based on Command Output
+  hosts: all
+
+  tasks:
+
+    - name: Check Disk Usage
+      ansible.builtin.command: df -h /
+      register: disk_usage
+      changed_when: false
+
+    - name: Display Disk Usage
+      ansible.builtin.debug:
+        var: disk_usage.stdout
+
+    - name: Fail if Disk Usage Exceeds Threshold
+      ansible.builtin.fail:
+        msg: "Disk usage exceeded the allowed threshold."
+      when: "'100%' in disk_usage.stdout"
