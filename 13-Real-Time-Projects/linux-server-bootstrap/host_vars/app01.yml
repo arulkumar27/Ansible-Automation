@@ -1,0 +1,12 @@
+---
+server_role: application
+
+environment: production
+
+hostname: app01
+
+application_name: ecommerce
+
+application_port: 8080
+
+java_version: 21
