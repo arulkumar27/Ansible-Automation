@@ -1,0 +1,61 @@
+# File Management
+
+## Copy a file to remote server
+
+```bash
+ansible all -b -m copy -a "src=index.html dest=/var/www/html/index.html"
+```
+
+## Copy a directory
+
+```bash
+ansible all -b -m copy -a "src=app/ dest=/opt/app/"
+```
+
+## Create a directory
+
+```bash
+ansible all -b -m file -a "path=/opt/application state=directory mode=0755"
+```
+
+## Create an empty file
+
+```bash
+ansible all -b -m file -a "path=/tmp/demo.txt state=touch"
+```
+
+## Delete a file
+
+```bash
+ansible all -b -m file -a "path=/tmp/demo.txt state=absent"
+```
+
+## Delete a directory
+
+```bash
+ansible all -b -m file -a "path=/opt/application state=absent"
+```
+
+## Change file permissions
+
+```bash
+ansible all -b -m file -a "path=/var/www/html/index.html mode=0644"
+```
+
+## Change file owner
+
+```bash
+ansible all -b -m file -a "path=/var/www/html owner=ubuntu group=ubuntu"
+```
+
+## Download a file from URL
+
+```bash
+ansible all -b -m get_url -a "url=https://example.com/app.jar dest=/opt/app.jar"
+```
+
+## Synchronize files
+
+```bash
+ansible all -b -m synchronize -a "src=website/ dest=/var/www/html/"
+```
