@@ -1,0 +1,32 @@
+---
+- name: Listen Keyword Example
+  hosts: webservers
+  become: true
+
+  tasks:
+
+    - name: Deploy Application Configuration
+      ansible.builtin.copy:
+        src: app.conf
+        dest: /etc/nginx/conf.d/app.conf
+      notify: Restart Web Services
+
+    - name: Deploy Website
+      ansible.builtin.copy:
+        src: index.html
+        dest: /var/www/html/index.html
+      notify: Restart Web Services
+
+  handlers:
+
+    - name: Restart Nginx
+      listen: Restart Web Services
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+
+    - name: Restart PHP-FPM
+      listen: Restart Web Services
+      ansible.builtin.service:
+        name: php8.2-fpm
+        state: restarted
