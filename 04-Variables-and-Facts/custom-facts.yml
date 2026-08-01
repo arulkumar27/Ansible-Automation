@@ -1,0 +1,25 @@
+---
+- name: Custom Facts Example
+  hosts: all
+  gather_facts: true
+
+  vars:
+    company_name: OpenAI Technologies
+    project_name: DevOps Platform
+    environment: Production
+
+  tasks:
+
+    - name: Display Custom Facts
+      ansible.builtin.debug:
+        msg:
+          - "Company : {{ company_name }}"
+          - "Project : {{ project_name }}"
+          - "Environment : {{ environment }}"
+
+    - name: Display System Information
+      ansible.builtin.debug:
+        msg:
+          - "Hostname : {{ ansible_hostname }}"
+          - "Operating System : {{ ansible_distribution }}"
+          - "Kernel : {{ ansible_kernel }}"
