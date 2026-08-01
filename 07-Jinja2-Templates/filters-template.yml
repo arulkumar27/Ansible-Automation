@@ -1,0 +1,35 @@
+---
+- name: Jinja2 Filters Example
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    username: arul
+    company: openai technologies
+
+    packages:
+      - nginx
+      - docker
+      - mysql
+
+  tasks:
+
+    - name: Upper Filter
+      ansible.builtin.debug:
+        msg: "{{ username | upper }}"
+
+    - name: Lower Filter
+      ansible.builtin.debug:
+        msg: "{{ company | lower }}"
+
+    - name: Capitalize Filter
+      ansible.builtin.debug:
+        msg: "{{ company | capitalize }}"
+
+    - name: Join Filter
+      ansible.builtin.debug:
+        msg: "{{ packages | join(', ') }}"
+
+    - name: Length Filter
+      ansible.builtin.debug:
+        msg: "{{ packages | length }}"
