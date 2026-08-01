@@ -1,0 +1,32 @@
+---
+- name: Install and Configure Apache
+  hosts: webservers
+  become: true
+
+  vars:
+    apache_package: apache2
+    apache_service: apache2
+
+  tasks:
+    - name: Install Apache
+      ansible.builtin.apt:
+        name: "{{ apache_package }}"
+        state: present
+        update_cache: true
+
+    - name: Enable Apache
+      ansible.builtin.service:
+        name: "{{ apache_service }}"
+        state: started
+        enabled: true
+
+    - name: Deploy Homepage
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        content: |
+          <h1>Apache deployed successfully using Ansible</h1>
+
+    - name: Restart Apache
+      ansible.builtin.service:
+        name: "{{ apache_service }}"
+        state: restarted
