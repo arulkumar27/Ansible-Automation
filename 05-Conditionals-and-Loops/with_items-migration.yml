@@ -1,0 +1,23 @@
+---
+- name: Loop Migration Example
+  hosts: all
+  become: true
+
+  vars:
+    packages:
+      - nginx
+      - git
+      - curl
+
+  tasks:
+
+    - name: Install Packages Using Modern Loop Syntax
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ packages }}"
+
+    - name: Display Installed Packages
+      ansible.builtin.debug:
+        msg: "{{ item }} installed."
+      loop: "{{ packages }}"
