@@ -1,0 +1,33 @@
+---
+- name: MySQL Role Example
+  hosts: databases
+  become: true
+
+  vars:
+    mysql_package: mysql-server
+    mysql_service: mysql
+
+  tasks:
+
+    - name: Install MySQL Server
+      ansible.builtin.package:
+        name: "{{ mysql_package }}"
+        state: present
+
+    - name: Start MySQL Service
+      ansible.builtin.service:
+        name: "{{ mysql_service }}"
+        state: started
+        enabled: true
+
+    - name: Install Python MySQL Library
+      ansible.builtin.package:
+        name: python3-pymysql
+        state: present
+
+    - name: Verify MySQL Service
+      ansible.builtin.service_facts
+
+    - name: Display Status
+      ansible.builtin.debug:
+        msg: "MySQL configured successfully on {{ inventory_hostname }}"
