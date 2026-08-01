@@ -1,0 +1,18 @@
+---
+timezone: Asia/Kolkata
+
+ntp_server: pool.ntp.org
+
+dns_server: 8.8.8.8
+
+package_state: present
+
+application_user: ubuntu
+
+application_group: ubuntu
+
+log_directory: /var/log/application
+
+backup_directory: /backup
+
+environment: development
