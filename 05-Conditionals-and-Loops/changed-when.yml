@@ -1,0 +1,23 @@
+---
+- name: Control Changed Status
+  hosts: all
+
+  tasks:
+
+    - name: Check Current Date
+      ansible.builtin.command: date
+      register: current_date
+      changed_when: false
+
+    - name: Display Current Date
+      ansible.builtin.debug:
+        var: current_date.stdout
+
+    - name: Check Uptime
+      ansible.builtin.command: uptime
+      register: uptime_output
+      changed_when: false
+
+    - name: Display Uptime
+      ansible.builtin.debug:
+        var: uptime_output.stdout
