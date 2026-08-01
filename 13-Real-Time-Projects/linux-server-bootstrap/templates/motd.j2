@@ -1,0 +1,18 @@
+*************************************************************
+
+            Welcome to {{ inventory_hostname }}
+
+            Environment : {{ environment | default('Production') }}
+
+            Server Role : {{ server_role | default('Linux Server') }}
+
+            Managed By : Ansible Automation
+
+            Date : {{ ansible_date_time.date }}
+
+            Time : {{ ansible_date_time.time }}
+
+*************************************************************
+
+Unauthorized access is prohibited.
+All activities may be monitored and logged.
