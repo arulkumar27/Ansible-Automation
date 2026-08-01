@@ -1,0 +1,28 @@
+---
+- name: Install MySQL Server
+  hosts: databases
+  become: true
+
+  tasks:
+    - name: Install MySQL
+      ansible.builtin.package:
+        name: mysql-server
+        state: present
+
+    - name: Start MySQL
+      ansible.builtin.service:
+        name: mysql
+        state: started
+        enabled: true
+
+    - name: Install Python MySQL Library
+      ansible.builtin.package:
+        name: python3-pymysql
+        state: present
+
+    - name: Verify MySQL Service
+      ansible.builtin.service_facts:
+
+    - name: Display Status
+      ansible.builtin.debug:
+        msg: "MySQL installed successfully on {{ inventory_hostname }}"
