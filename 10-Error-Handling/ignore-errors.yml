@@ -1,0 +1,21 @@
+---
+- name: Ignore Errors Example
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Install Nginx
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+    - name: Stop Non-Existing Service
+      ansible.builtin.service:
+        name: demo-service
+        state: stopped
+      ignore_errors: true
+
+    - name: Continue Playbook Execution
+      ansible.builtin.debug:
+        msg: "Playbook continued even though the previous task failed."
