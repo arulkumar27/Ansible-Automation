@@ -1,0 +1,30 @@
+---
+- name: Manage web server services
+  hosts: webservers
+  become: true
+  gather_facts: true
+
+  vars:
+    service_name: nginx
+
+  tasks:
+    - name: Ensure the service is installed
+      ansible.builtin.package:
+        name: "{{ service_name }}"
+        state: present
+
+    - name: Ensure the service is started
+      ansible.builtin.service:
+        name: "{{ service_name }}"
+        state: started
+        enabled: true
+
+    - name: Collect service information
+      ansible.builtin.service_facts:
+
+    - name: Display service status
+      ansible.builtin.debug:
+        msg: >-
+          {{ service_name }} status is
+          {{ ansible_facts.services[service_name + '.service'].state
+          | default('unknown') }}
