@@ -1,0 +1,18 @@
+---
+- name: Retry Until Success
+  hosts: all
+
+  tasks:
+
+    - name: Wait for SSH Port
+      ansible.builtin.wait_for:
+        port: 22
+        timeout: 5
+      register: ssh_status
+      retries: 5
+      delay: 10
+      until: ssh_status is succeeded
+
+    - name: Display SSH Status
+      ansible.builtin.debug:
+        msg: "SSH is available on {{ inventory_hostname }}"
