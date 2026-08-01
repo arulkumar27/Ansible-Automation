@@ -1,0 +1,22 @@
+---
+- name: Always Example
+  hosts: all
+
+  tasks:
+
+    - name: Execute Deployment
+      block:
+
+        - name: Display Deployment
+          ansible.builtin.debug:
+            msg: "Deploying application..."
+
+      always:
+
+        - name: Save Deployment Log
+          ansible.builtin.debug:
+            msg: "Deployment log saved."
+
+        - name: Notify Completion
+          ansible.builtin.debug:
+            msg: "Cleanup completed."
