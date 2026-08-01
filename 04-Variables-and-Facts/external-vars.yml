@@ -1,0 +1,16 @@
+---
+package_name: nginx
+
+service_name: nginx
+
+application_port: 80
+
+application_user: ubuntu
+
+web_root: /var/www/html
+
+environment: development
+
+backup_directory: /backup
+
+timezone: Asia/Kolkata
