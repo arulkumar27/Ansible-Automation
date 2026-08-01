@@ -1,0 +1,16 @@
+---
+hostname: db1
+
+ansible_host: 192.168.1.20
+
+environment: production
+
+mysql_port: 3306
+
+database_name: ecommerce
+
+database_user: appuser
+
+backup_enabled: true
+
+server_role: database
