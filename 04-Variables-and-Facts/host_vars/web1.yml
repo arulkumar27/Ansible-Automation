@@ -1,0 +1,16 @@
+---
+hostname: web1
+
+ansible_host: 192.168.1.10
+
+environment: development
+
+http_port: 80
+
+application_name: ecommerce
+
+server_role: frontend
+
+max_connections: 1000
+
+backup_enabled: true
