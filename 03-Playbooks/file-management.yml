@@ -1,0 +1,57 @@
+---
+- name: Manage files and directories
+  hosts: all
+  become: true
+
+  vars:
+    application_directory: /opt/devops-app
+    configuration_file: /opt/devops-app/application.conf
+
+  tasks:
+    - name: Create the application directory
+      ansible.builtin.file:
+        path: "{{ application_directory }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Create the application configuration file
+      ansible.builtin.copy:
+        content: |
+          application_name=devops-app
+          environment=development
+          managed_by=ansible
+          server={{ inventory_hostname }}
+        dest: "{{ configuration_file }}"
+        owner: root
+        group: root
+        mode: "0644"
+        backup: true
+
+    - name: Create a logs directory
+      ansible.builtin.file:
+        path: "{{ application_directory }}/logs"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Create an empty application log
+      ansible.builtin.file:
+        path: "{{ application_directory }}/logs/application.log"
+        state: touch
+        owner: root
+        group: root
+        mode: "0644"
+        modification_time: preserve
+        access_time: preserve
+
+    - name: Verify the configuration file
+      ansible.builtin.stat:
+        path: "{{ configuration_file }}"
+      register: configuration_status
+
+    - name: Display file status
+      ansible.builtin.debug:
+        msg: "Configuration file exists: {{ configuration_status.stat.exists }}"
