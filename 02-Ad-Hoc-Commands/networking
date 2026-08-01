@@ -1,0 +1,61 @@
+# Networking
+
+## Check IP address
+
+```bash
+ansible all -m command -a "ip addr"
+```
+
+## Check routing table
+
+```bash
+ansible all -m command -a "ip route"
+```
+
+## Display network interfaces
+
+```bash
+ansible all -m command -a "ip link"
+```
+
+## Test internet connectivity
+
+```bash
+ansible all -m command -a "ping -c 4 google.com"
+```
+
+## Check DNS resolution
+
+```bash
+ansible all -m command -a "nslookup google.com"
+```
+
+## Check listening ports
+
+```bash
+ansible all -m command -a "ss -tulpn"
+```
+
+## Display firewall status
+
+```bash
+ansible all -m command -a "ufw status"
+```
+
+## Display open ports
+
+```bash
+ansible all -m command -a "netstat -tulpn"
+```
+
+## Check network connections
+
+```bash
+ansible all -m command -a "ss -an"
+```
+
+## Check default gateway
+
+```bash
+ansible all -m command -a "ip route | grep default"
+```
