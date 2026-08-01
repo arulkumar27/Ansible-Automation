@@ -1,0 +1,28 @@
+---
+- name: JSON Query Example
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    employees:
+      - name: Arul
+        department: DevOps
+        experience: 2
+
+      - name: John
+        department: Cloud
+        experience: 4
+
+      - name: David
+        department: Networking
+        experience: 3
+
+  tasks:
+
+    - name: Display DevOps Employee
+      ansible.builtin.debug:
+        msg: "{{ employees | community.general.json_query('[?department==`DevOps`]') }}"
+
+    - name: Display Cloud Employee
+      ansible.builtin.debug:
+        msg: "{{ employees | community.general.json_query('[?department==`Cloud`]') }}"
