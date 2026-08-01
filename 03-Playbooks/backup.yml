@@ -1,0 +1,24 @@
+---
+- name: Backup Important Files
+  hosts: all
+  become: true
+
+  vars:
+    backup_directory: /backup
+
+  tasks:
+    - name: Create Backup Directory
+      ansible.builtin.file:
+        path: "{{ backup_directory }}"
+        state: directory
+        mode: "0755"
+
+    - name: Archive Configuration Files
+      community.general.archive:
+        path:
+          - /etc
+        dest: "{{ backup_directory }}/etc-backup.tar.gz"
+
+    - name: Display Backup Location
+      ansible.builtin.debug:
+        msg: "Backup stored in {{ backup_directory }}"
