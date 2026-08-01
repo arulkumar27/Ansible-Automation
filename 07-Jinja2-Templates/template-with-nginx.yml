@@ -1,0 +1,23 @@
+---
+- name: Configure Nginx Using Jinja2
+  hosts: webservers
+  become: true
+
+  vars:
+    server_name: demo.example.com
+    web_root: /var/www/html
+
+  tasks:
+
+    - name: Deploy Nginx Configuration
+      ansible.builtin.template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/sites-available/default
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
