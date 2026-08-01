@@ -1,0 +1,21 @@
+---
+- name: Multiple Conditions Example
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Install Git on Ubuntu 22.04
+      ansible.builtin.package:
+        name: git
+        state: present
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_major_version == "22"
+
+    - name: Display Success Message
+      ansible.builtin.debug:
+        msg: "Git installation completed."
+      when:
+        - ansible_os_family == "Debian"
+        - ansible_memtotal_mb > 512
