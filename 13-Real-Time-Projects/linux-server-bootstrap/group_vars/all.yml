@@ -1,0 +1,26 @@
+---
+timezone: Asia/Kolkata
+
+devops_user: devops
+
+common_packages:
+
+  - git
+
+  - curl
+
+  - wget
+
+  - unzip
+
+  - vim
+
+  - tree
+
+  - htop
+
+  - net-tools
+
+  - python3
+
+  - python3-pip
