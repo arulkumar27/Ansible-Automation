@@ -1,0 +1,65 @@
+---
+- name: Linux Server Bootstrap
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars_files:
+    - group_vars/all.yml
+
+  tasks:
+
+    - name: Update Package Cache
+      ansible.builtin.apt:
+        update_cache: true
+      when: ansible_os_family == "Debian"
+
+    - name: Upgrade Installed Packages
+      ansible.builtin.apt:
+        upgrade: dist
+      when: ansible_os_family == "Debian"
+
+    - name: Install Required Packages
+      ansible.builtin.package:
+        name: "{{ common_packages }}"
+        state: present
+
+    - name: Create DevOps User
+      ansible.builtin.user:
+        name: "{{ devops_user }}"
+        groups: sudo
+        shell: /bin/bash
+        append: true
+
+    - name: Configure SSH
+      ansible.builtin.template:
+        src: templates/sshd_config.j2
+        dest: /etc/ssh/sshd_config
+      notify:
+        - Restart SSH
+
+    - name: Configure MOTD
+      ansible.builtin.template:
+        src: templates/motd.j2
+        dest: /etc/motd
+
+    - name: Configure Hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+
+    - name: Configure Timezone
+      community.general.timezone:
+        name: "{{ timezone }}"
+
+    - name: Start SSH Service
+      ansible.builtin.service:
+        name: ssh
+        state: started
+        enabled: true
+
+  handlers:
+
+    - name: Restart SSH
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
