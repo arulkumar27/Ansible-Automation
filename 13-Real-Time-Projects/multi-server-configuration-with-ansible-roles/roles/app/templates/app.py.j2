@@ -1,0 +1,22 @@
+from flask import Flask
+import socket
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return f"""
+    <h1>Ansible Application</h1>
+    <p>Application deployed successfully.</p>
+    <p>Server: {socket.gethostname()}</p>
+    """
+
+@app.route("/health")
+def health():
+    return {"status": "UP"}
+
+if __name__ == "__main__":
+    app.run(
+        host="0.0.0.0",
+        port={{ app_port }}
+    )
