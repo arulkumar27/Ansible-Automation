@@ -1,0 +1,32 @@
+---
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install common packages
+  ansible.builtin.apt:
+    name:
+      - curl
+      - wget
+      - git
+      - unzip
+      - vim
+      - htop
+      - tree
+    state: present
+
+- name: Create DevOps user
+  ansible.builtin.user:
+    name: "{{ admin_user }}"
+    shell: /bin/bash
+    create_home: true
+    groups: sudo
+    append: true
+
+- name: Create DevOps directory
+  ansible.builtin.file:
+    path: /opt/devops
+    state: directory
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
+    mode: "0755"
