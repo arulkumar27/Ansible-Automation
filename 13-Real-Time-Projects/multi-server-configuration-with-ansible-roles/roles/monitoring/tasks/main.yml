@@ -1,0 +1,21 @@
+---
+- name: Install monitoring packages
+  ansible.builtin.apt:
+    name:
+      - htop
+      - sysstat
+    state: present
+    update_cache: true
+
+- name: Enable sysstat
+  ansible.builtin.lineinfile:
+    path: /etc/default/sysstat
+    regexp: '^ENABLED='
+    line: 'ENABLED="true"'
+  notify: Restart sysstat
+
+- name: Start and enable sysstat
+  ansible.builtin.service:
+    name: sysstat
+    state: started
+    enabled: true
