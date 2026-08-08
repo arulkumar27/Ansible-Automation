@@ -1,0 +1,10 @@
+---
+admin_user: devops
+
+app_name: demoapp
+app_port: 5000
+app_directory: "/opt/{{ app_name }}"
+
+docker_users:
+  - ubuntu
+  - devops
